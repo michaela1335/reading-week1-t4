@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 3 Reading Assessment: Aotearoa Landscapes & Tech</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #0284c7;
+            --secondary: #38bdf8;
+            --bg-slate: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --border-radius: 12px;
+            --shadow: 0 4px 14px rgba(0,0,0,0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-slate);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px 16px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f172a, #0369a1);
+            color: white;
+            padding: 22px 28px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        header h1 {
+            font-size: 1.7rem;
+            font-weight: 800;
+        }
+
+        .btn-teacher {
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-teacher:hover {
+            background: rgba(255,255,255,0.32);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: var(--primary);
+            font-size: 1.25rem;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .year-btn-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-year {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #cbd5e1;
+            background: white;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-year.active {
+            border-color: var(--accent);
+            background: #f0f9ff;
+            color: var(--accent);
+        }
+
+        /* Reading Split Layout */
+        .reading-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .reading-grid { grid-template-columns: 1fr; }
+        }
+
+        .passage-box {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--accent);
+            padding: 18px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+            max-height: 480px;
+            overflow-y: auto;
+            line-height: 1.7;
+        }
+
+        .passage-box h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 12px 0 16px 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #38bdf8, #0284c7);
+            transition: width 0.3s ease;
+        }
+
+        .q-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--primary);
+            white-space: pre-line;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-option {
+            text-align: left;
+            padding: 12px 16px;
+            border: 2px solid #cbd5e1;
+            background: white;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .btn-option:hover {
+            border-color: var(--accent);
+            background: #f0f9ff;
+        }
+
+        .btn-option.selected {
+            border-color: var(--accent);
+            background: #e0f2fe;
+            color: #0369a1;
+            font-weight: 700;
+        }
+
+        .btn-nav {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s ease;
+        }
+
+        .btn-nav:hover {
+            background-color: #0369a1;
+        }
+
+        /* SCREEN 2 - FEEDBACK */
+        #feedbackScreen {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .submission-notice {
+            background: #dcfce7;
+            border: 1px solid #86efac;
+            color: #14532d;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .level-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .level-developing { background: #fef3c7; color: #92400e; }
+        .level-proficient { background: #dcfce7; color: #166534; }
+        .level-advanced { background: #dbeafe; color: #1e40af; }
+
+        .score-breakdown-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .score-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .score-card h4 {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .score-card p {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .next-steps-box {
+            background: #fff7ed;
+            border-left: 4px solid #f97316;
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+        }
+
+        .next-steps-box h4 {
+            color: #c2410c;
+            margin-bottom: 8px;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            max-width: 850px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 0.88rem;
+        }
+
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th { background-color: #f1f5f9; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1>Phase 3 Reading Assessment</h1>
+            <p>Years 7 & 8 NZ Curriculum Comprehension Diagnostic (10 Questions)</p>
+        </div>
+        <button class="btn-teacher" onclick="openTeacherDashboard()">Teacher Dashboard (PIN)</button>
+    </header>
+
+    <!-- SCREEN 1: QUIZ CONTAINER -->
+    <div id="testScreen">
+        <!-- Registration Card -->
+        <div id="startCard" class="card">
+            <h2>1. Student Details</h2>
+            <div style="display: grid; grid-template-columns: 220px 1fr; gap: 20px; align-items: center; margin-bottom: 20px;">
+                <!-- Embedded Unbreakable Vector Artwork -->
+                <svg viewBox="0 0 200 200" width="100%" height="150" style="border-radius: 8px; background: linear-gradient(135deg, #0f172a, #0369a1);">
+                    <circle cx="100" cy="100" r="65" fill="none" stroke="#38bdf8" stroke-width="4" stroke-dasharray="6,6"/>
+                    <text x="100" y="85" font-size="22" font-weight="bold" fill="#fef08a" text-anchor="middle">Phase 3</text>
+                    <text x="100" y="118" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">Reading Test</text>
+                    <path d="M 60 140 Q 100 160 140 140" fill="none" stroke="#38bdf8" stroke-width="3"/>
+                </svg>
+                <div>
+                    <p style="font-size: 0.95rem; margin-bottom: 8px;">Welcome! You will read two 300-word texts about New Zealand environments & technology, then answer 5 questions per passage.</p>
+                    <p style="font-size: 0.88rem; color: var(--text-muted);">
+                        ✦ 10 Total Questions (1 per page)<br>
+                        ✦ Questions map to Retrieval, Inference, Interpretation, &amp; Critique<br>
+                        ✦ Side-by-side text view so you can reference the story easily
+                    </p>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="studentName">Full Name:</label>
+                <input type="text" id="studentName" placeholder="Enter your full name">
+            </div>
+            <div class="input-group">
+                <label>Year Group:</label>
+                <div class="year-btn-group">
+                    <button type="button" class="btn-year active" id="btnYear7" onclick="selectYear('Year 7')">Year 7</button>
+                    <button type="button" class="btn-year" id="btnYear8" onclick="selectYear('Year 8')">Year 8</button>
+                </div>
+            </div>
+            <button class="btn-nav" onclick="startQuiz()">Begin Reading Assessment</button>
+        </div>
+
+        <!-- Dynamic Reading Question View -->
+        <div id="questionCard" class="card" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span id="questionBadge" class="q-badge">Retrieval (R)</span>
+                <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);" id="qCounter">Question 1 of 10</span>
+            </div>
+
+            <div class="progress-bar-container">
+                <div id="progressBarFill" class="progress-bar-fill"></div>
+            </div>
+
+            <div class="reading-grid">
+                <!-- Left Column: Passage Text -->
+                <div class="passage-box" id="passageDisplay"></div>
+
+                <!-- Right Column: Question & Choices -->
+                <div>
+                    <div id="questionText" class="question-text"></div>
+                    <div id="optionsContainer" class="options-grid"></div>
+                    <button id="btnNext" class="btn-nav" onclick="nextQuestion()">Next Question →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: DIAGNOSTIC RESULTS -->
+    <div id="feedbackScreen" class="card">
+        <div class="submission-notice">
+            ✓ Assessment submitted! Results and diagnostic report have been transmitted directly to your teacher's database.
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+            <h2>Phase 3 Reading Assessment Report</h2>
+            <span id="curriculumBadge" class="level-badge level-developing">Phase 3 Developing</span>
+        </div>
+        
+        <p style="margin-bottom:12px; font-size:1.05rem;">
+            Student: <strong id="resName"></strong> | Year Level: <strong id="resYear"></strong>
+        </p>
+
+        <div class="score-breakdown-grid">
+            <div class="score-card">
+                <h4>Passage 1 Score</h4>
+                <p id="p1Display">0 / 5</p>
+            </div>
+            <div class="score-card">
+                <h4>Passage 2 Score</h4>
+                <p id="p2Display">0 / 5</p>
+            </div>
+        </div>
+
+        <p style="margin-bottom:16px; font-size: 1.15rem; text-align:center;">
+            Overall Phase 3 Score: <strong id="scorePercent" style="color:var(--accent);">0%</strong>
+        </p>
+
+        <h3 style="font-size:1rem; margin-top:16px; margin-bottom:8px;">Comprehension Strengths Demonstrated:</h3>
+        <div id="detailedStrengths" style="font-size:0.95rem; line-height:1.7; background:#f8fafc; padding:16px; border-radius:8px; border:1px solid #e2e8f0;"></div>
+
+        <div class="next-steps-box">
+            <h4>🎯 Actionable Next Steps for Growth:</h4>
+            <div id="nextStepsDetails" style="font-size:0.95rem; line-height:1.7;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Teacher Dashboard Modal -->
+<div id="teacherModal" class="modal-overlay">
+    <div class="modal-content">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <h2>Teacher Dashboard</h2>
+            <button onclick="closeTeacherModal()" style="padding:6px 12px; cursor:pointer;">Close</button>
+        </div>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;">
+            Google Sheet Backend Connection Active. Download results spreadsheet below.
+        </p>
+        <button class="btn-nav" style="width:auto; padding:8px 16px; margin-bottom:16px;" onclick="downloadCSV()">Download Detailed CSV Report</button>
+        
+        <div style="overflow-x:auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Student</th>
+                        <th>Year</th>
+                        <th>Total (%)</th>
+                        <th>Passage 1 (/5)</th>
+                        <th>Passage 2 (/5)</th>
+                        <th>Phase 3 Level</th>
+                    </tr>
+                </thead>
+                <tbody id="teacherTableBody">
+                    <tr><td colspan="7" style="text-align:center;">No submissions recorded in this active session yet.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    const BACKEND_URL = "https://script.google.com/macros/s/AKfycbxD8Xa_D_cYKEe_6b9juuh2J_38JBrX-P7rq7wQgn-M5FV9H_jG9494zwhw1EwnQbeR-Q/exec";
+    const TEACHER_PIN = "1335";
+    let selectedYear = "Year 7";
+    let currentQIndex = 0;
+    let studentAnswers = [];
+    let sessionSubmissions = [];
+    let selectedMcqIdx = null;
+
+    // PASSAGES (~300 words each)
+    const passage1Text = '<h3>Passage 1: The Drowned Forest of Lake Rotomā</h3><p>Submerged beneath the shimmering surface of Lake Rotomā, in the Bay of Plenty, lies an ancient silent forest. Hundreds of years ago, towering tōtara, rimu, and mataī trees stood on dry earth surrounding a tranquil valley. However, a cataclysmic event transformed the landscape forever. Geologists believe that a powerful earthquake, coupled with volcanic activity from the nearby Okataina Volcanic Centre, triggered a massive landslide. This natural dam blocked the valley\'s natural drainage pathways, causing water levels to rise rapidly and drown the standing forest.</p><br><p>Today, preserved by the cold, oxygen-poor depths of the lake, these ancient tree trunks remain standing upright like ghostly wooden sentinels. Divers exploring the underwater forest report seeing moss-draped branches that look eerily preserved, creating a unique freshwater habitat for native kōaro fish and freshwater crayfish (kōura). Scientists study these submerged trunks to piece together Aotearoa\'s climate history. By taking core samples from the wood, tree-ring researchers (dendrochronologists) can read environmental conditions dating back over eight centuries.</p><br><p>Yet, this delicate underwater museum faces modern threats. Invasive aquatic weeds, such as lagarosiphon, aggressively carpet the lakebed, smothering native vegetation and obscuring the historic trees. Furthermore, boat propellers and recreational anchors occasionally snag fragile branches, snapping wood that has survived underwater for hundreds of years. Local iwi and conservation groups have instituted strict lake protection protocols to safeguard Rotomā. They monitor water clarity, manage biosecurity checkpoints for boats entering the lake, and raise community awareness about the forest\'s cultural and ecological value. The drowned forest serves as a dramatic reminder of the restless power of Aotearoa\'s earth.</p>';
+
+    const passage2Text = '<h3>Passage 2: Guardians of the Canopy: Thermal Drones in Aotearoa</h3><p>Deep within the dense, mist-shrouded rainforests of Fiordland, conservationists face a daunting challenge: tracking elusive native wildlife across impassable terrain. For decades, rangers relied on manual ground surveys, trekking for days through thick bush to set camera traps or listen for nocturnal bird calls. Today, cutting-edge technology is transforming wildlife protection across Aotearoa through the deployment of autonomous thermal drones.</p><br><p>Equipped with ultra-sensitive infrared sensors, these flying guardians detect tiny heat signatures invisible to the human eye. Operating high above the canopy during the freezing hours before dawn, thermal drones scan the forest floor. Artificial intelligence algorithms analyze heat signatures in real time, instantly distinguishing a native kiwi or takahē from invasive pests like stoats, possums, and feral cats. This rapid identification allows predator-control teams to deploy targeted trapping grids with unprecedented speed and precision.</p><br><p>Beyond predator management, thermal drones play a crucial role in monitoring vulnerable species during nesting seasons. Previously, locating hidden nests required rangers to push through fragile habitats, risking accidental disturbance to brooding birds. Now, drones overhead pinpoint roosting sites without disturbing a single leaf. Scientists can measure population densities, track chick survival rates, and map critical habitats across vast alpine ranges in a fraction of the time previously required.</p><br><p>However, technology alone cannot save Aotearoa\'s biodiversity. Operators must navigate unpredictable mountain weather, dense canopy cover that blocks thermal signals, and strict aviation guidelines. Furthermore, drone data must be integrated with traditional kaitiakitanga (guardianship) practices led by local hapū and community volunteers who carry out hands-on trapping on the ground. By blending modern technological innovation with traditional ecological stewardship, conservationists are building a powerful defense system for native species.</p>';
+
+    // 10 QUESTIONS MAPPED TO PHASE 3 COMPREHENSION CATEGORIES WITH MIXED CORRECT ANSWERS (A, B, C, D)
+    const questions = [
+        // Passage 1 Questions (1-5)
+        {
+            id: 1, passageNum: 1, category: "Retrieval (R)",
+            q: "What types of trees made up the ancient standing forest before it was drowned?",
+            options: ["Kauri, beech, and pōhutukawa", "Tōtara, rimu, and mataī", "Pine, oak, and willow", "Ferns, mosses, and mānuka"],
+            correct: 1, topic: "Explicit Information Retrieval"
+        },
+        {
+            id: 2, passageNum: 1, category: "Local Inference (LI)",
+            q: "Why have the submerged tree trunks remained preserved and upright for hundreds of years?",
+            options: ["Because local divers coat the branches in protective resin", "Because volcanic ash turned the wood into solid stone", "Because the cold, oxygen-poor water slows down natural decay", "Because invasive lake weeds hold the trunks together"],
+            correct: 2, topic: "Local Textual Clues & Cause"
+        },
+        {
+            id: 3, passageNum: 1, category: "Complex Inference (CI)",
+            q: "Based on the entire text, how does the drowned forest provide value to both scientists and native wildlife?",
+            options: ["It offers tree-ring climate data for scientists and a habitat for native kōaro and kōura", "It provides timber for construction and stops lake erosion", "It generates geothermal energy and purifies drinking water", "It attracts tourists and clears invasive aquatic weeds"],
+            correct: 0, topic: "Synthesizing Ideas Across Paragraphs"
+        },
+        {
+            id: 4, passageNum: 1, category: "Interpret & Integrate (I&I)",
+            q: "What is the primary intent of the author in writing this passage?",
+            options: ["To encourage recreational boaters to anchor inside the drowned forest", "To convince divers to remove underwater tree trunks from Lake Rotomā", "To argue that volcanic eruptions are the biggest threat to lakes in New Zealand", "To explain how a natural event formed a unique feature and why it requires active protection"],
+            correct: 3, topic: "Author's Overall Intent & Core Theme"
+        },
+        {
+            id: 5, passageNum: 1, category: "Evaluate & Critique (C&E)",
+            q: "How does the author's metaphor describing the trees as 'ghostly wooden sentinels' shape the tone of the text?",
+            options: ["It creates an eerie, respectful mood emphasizing how the standing trees watch over the lake", "It makes the passage sound like a fictional horror story to scare divers away", "It criticizes conservationists for not removing dead trees from the water", "It uses humor to show that the drowned trees no longer serve any purpose"],
+            correct: 0, topic: "Language Choice & Figurative Effect"
+        },
+
+        // Passage 2 Questions (6-10)
+        {
+            id: 6, passageNum: 2, category: "Retrieval (R)",
+            q: "When do operators fly thermal drones to detect heat signatures in the forest?",
+            options: ["At exact noon when the sun is brightest", "During afternoon rainstorms", "During the freezing hours before dawn", "Only when kiwi birds are calling at twilight"],
+            correct: 2, topic: "Explicit Fact Retrieval"
+        },
+        {
+            id: 7, passageNum: 2, category: "Local Inference (LI)",
+            q: "Why is the drone's ability to instantly distinguish native birds from stoats and feral cats so important?",
+            options: ["It allows conservationists to feed kiwi before pests wake up", "It enables predator-control teams to deploy targeted traps quickly and accurately", "It helps drones eliminate invasive pests automatically", "It teaches native birds how to fly away from predators"],
+            correct: 1, topic: "Localized Cause & Effect Inference"
+        },
+        {
+            id: 8, passageNum: 2, category: "Complex Inference (CI)",
+            q: "How do thermal drones improve upon the traditional ground survey methods used in the past?",
+            options: ["Drones completely eliminate the need for ground volunteers or local hapū", "Drones cover vast terrain faster, locate nests without disturbing habitats, and identify pests rapidly", "Drones operate through heavy mountain blizzards without any weather limitations", "Drones cost less than camera traps and never require battery recharges"],
+            correct: 1, topic: "Comparing & Contrasting Key Text Ideas"
+        },
+        {
+            id: 9, passageNum: 2, category: "Interpret & Integrate (I&I)",
+            q: "What main lesson does the final paragraph convey about wildlife conservation in Aotearoa?",
+            options: ["High-tech drones will fully replace traditional human trapping within five years", "Thermal drones are too expensive and fragile to use in mountain forests", "Local hapū should focus exclusively on aviation safety guidelines", "Effective conservation requires combining high-tech tools with ground-level kaitiakitanga and community effort"],
+            correct: 3, topic: "Integrating Themes & Cultural Intent"
+        },
+        {
+            id: 10, passageNum: 2, category: "Evaluate & Critique (C&E)",
+            q: "Why did the author structure the passage by stating the environmental challenge first, then detailing drone tech, and ending with traditional guardianship?",
+            options: ["To prove that modern technology is always superior to ancient traditions", "To build a logical explanation showing how innovation solves practical problems while staying grounded in community stewardship", "To confuse the reader with aviation regulations before explaining native birds", "To persuade commercial airline companies to purchase thermal drones"],
+            correct: 1, topic: "Text Structure & Argumentative Design"
+        }
+    ];
+
+    function selectYear(year) {
+        selectedYear = year;
+        document.getElementById('btnYear7').classList.toggle('active', year === 'Year 7');
+        document.getElementById('btnYear8').classList.toggle('active', year === 'Year 8');
+    }
+
+    function startQuiz() {
+        const name = document.getElementById('studentName').value.trim();
+        if (!name) {
+            alert("Please enter your full name before starting.");
+            return;
+        }
+
+        document.getElementById('startCard').style.display = 'none';
+        document.getElementById('questionCard').style.display = 'block';
+        currentQIndex = 0;
+        studentAnswers = [];
+        selectedMcqIdx = null;
+        renderQuestion();
+    }
+
+    function renderQuestion() {
+        const q = questions[currentQIndex];
+        document.getElementById('qCounter').innerText = `Question ${currentQIndex + 1} of 10`;
+        document.getElementById('progressBarFill').style.width = `${((currentQIndex + 1) / 10) * 100}%`;
+        document.getElementById('questionBadge').innerText = `${q.category} — Passage ${q.passageNum}`;
+
+        // Update Passage Side
+        document.getElementById('passageDisplay').innerHTML = (q.passageNum === 1) ? passage1Text : passage2Text;
+
+        // Update Question Side
+        document.getElementById('questionText').innerText = q.q;
+
+        const optionsContainer = document.getElementById('optionsContainer');
+        optionsContainer.innerHTML = q.options.map((opt, idx) => `
+            <button type="button" class="btn-option" onclick="selectMcqOption(${idx})">${String.fromCharCode(65 + idx)}) ${opt}</button>
+        `).join('');
+
+        selectedMcqIdx = null;
+        document.getElementById('btnNext').innerText = (currentQIndex === 9) ? "Submit Final Assessment" : "Next Question →";
+    }
+
+    function selectMcqOption(idx) {
+        selectedMcqIdx = idx;
+        const btns = document.querySelectorAll('.btn-option');
+        btns.forEach((b, i) => {
+            b.classList.toggle('selected', i === idx);
+        });
+    }
+
+    function nextQuestion() {
+        const q = questions[currentQIndex];
+
+        if (selectedMcqIdx === null) {
+            alert("Please select an answer choice before moving forward.");
+            return;
+        }
+
+        const givenAnswer = q.options[selectedMcqIdx];
+        const isCorrect = (selectedMcqIdx === q.correct);
+
+        studentAnswers.push({
+            qId: q.id,
+            passageNum: q.passageNum,
+            category: q.category,
+            topic: q.topic,
+            given: givenAnswer,
+            isCorrect: isCorrect
+        });
+
+        selectedMcqIdx = null;
+
+        if (currentQIndex < 9) {
+            currentQIndex++;
+            renderQuestion();
+        } else {
+            finishAssessment();
+        }
+    }
+
+    function finishAssessment() {
+        let p1Correct = 0;
+        let p2Correct = 0;
+        let strengths = [];
+        let nextSteps = [];
+
+        studentAnswers.forEach(a => {
+            if (a.passageNum === 1) {
+                if (a.isCorrect) p1Correct++;
+            } else {
+                if (a.isCorrect) p2Correct++;
+            }
+
+            if (a.isCorrect) {
+                strengths.push(`✓ Mastered ${a.category} (${a.topic})`);
+            } else {
+                nextSteps.push(`👉 Focus on ${a.category}: Practice ${a.topic}`);
+            }
+        });
+
+        const totalScore = p1Correct + p2Correct;
+        const scorePct = Math.round((totalScore / 10) * 100);
+
+        let level = "Phase 3 Developing";
+        let levelClass = "level-developing";
+
+        if (scorePct >= 80) {
+            level = "Phase 3 Advanced / Mastering";
+            levelClass = "level-advanced";
+        } else if (scorePct >= 50) {
+            level = "Phase 3 Proficient";
+            levelClass = "level-proficient";
+        }
+
+        const studentName = document.getElementById('studentName').value.trim();
+
+        // Populate Screen 2
+        document.getElementById('resName').innerText = studentName;
+        document.getElementById('resYear').innerText = selectedYear;
+        document.getElementById('p1Display').innerText = `${p1Correct} / 5`;
+        document.getElementById('p2Display').innerText = `${p2Correct} / 5`;
+        document.getElementById('scorePercent').innerText = `${scorePct}% (${totalScore}/10)`;
+        document.getElementById('curriculumBadge').innerText = level;
+        document.getElementById('curriculumBadge').className = `level-badge ${levelClass}`;
+
+        document.getElementById('detailedStrengths').innerHTML = strengths.length > 0 ? strengths.map(s => `<p style="margin-bottom:6px;">${s}</p>`).join('') : '<p>No targets fully mastered on first attempt. Focus on the next steps below!</p>';
+        document.getElementById('nextStepsDetails').innerHTML = nextSteps.length > 0 ? nextSteps.map(n => `<p style="margin-bottom:6px;">${n}</p>`).join('') : '<p>Outstanding reading comprehension! All Phase 3 targets successfully mastered.</p>';
+
+        // Hide Test Screen & Show Feedback
+        document.getElementById('testScreen').style.display = 'none';
+        document.getElementById('feedbackScreen').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Prepare Backend Payload
+        const qLog = studentAnswers.map(a => `Q${a.qId}[P${a.passageNum}-${a.category}]: ${a.isCorrect ? 'PASS' : 'FAIL'}`).join(' | ');
+        const payload = {
+            studentName: studentName,
+            yearGroup: selectedYear,
+            totalScore: `${scorePct}% (${totalScore}/10)`,
+            readingLevel: level,
+            passage1Score: `${p1Correct}/5`,
+            passage2Score: `${p2Correct}/5`,
+            strengths: strengths.join(' | '),
+            nextSteps: nextSteps.join(' | '),
+            questionLog: qLog
+        };
+
+        sessionSubmissions.push({ ...payload, timestamp: new Date().toLocaleTimeString() });
+
+        fetch(BACKEND_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(() => {
+            console.log("Reading test data transmitted directly to Google Sheet backend.");
+        }).catch(err => console.error("Backend transmission error:", err));
+    }
+
+    function openTeacherDashboard() {
+        const pin = prompt("Enter Teacher PIN:");
+        if (pin === TEACHER_PIN) {
+            renderTeacherTable();
+            document.getElementById('teacherModal').style.display = 'flex';
+        } else if (pin !== null) {
+            alert("Incorrect PIN.");
+        }
+    }
+
+    function closeTeacherModal() {
+        document.getElementById('teacherModal').style.display = 'none';
+    }
+
+    function renderTeacherTable() {
+        const tbody = document.getElementById('teacherTableBody');
+        if (sessionSubmissions.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No reading test submissions recorded in this active session yet.</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = sessionSubmissions.map(s => `
+            <tr>
+                <td>${s.timestamp}</td>
+                <td>${s.studentName}</td>
+                <td>${s.yearGroup}</td>
+                <td>${s.totalScore}</td>
+                <td>${s.passage1Score}</td>
+                <td>${s.passage2Score}</td>
+                <td>${s.readingLevel}</td>
+            </tr>
+        `).join('');
+    }
+
+    function downloadCSV() {
+        if (sessionSubmissions.length === 0) {
+            alert("No submissions to download yet.");
+            return;
+        }
+
+        let csv = "Timestamp,Student Name,Year Group,Total Score (%),Phase 3 Reading Level,Passage 1 Score (/5),Passage 2 Score (/5),Comprehension Strengths,Actionable Next Steps,Question Log\n";
+        sessionSubmissions.forEach(s => {
+            const cleanStrengths = `"${s.strengths.replace(/"/g, '""')}"`;
+            const cleanSteps = `"${s.nextSteps.replace(/"/g, '""')}"`;
+            const cleanLog = `"${s.questionLog.replace(/"/g, '""')}"`;
+            csv += `"${s.timestamp}","${s.studentName}","${s.yearGroup}","${s.totalScore}","${s.readingLevel}","${s.passage1Score}","${s.passage2Score}",${cleanStrengths},${cleanSteps},${cleanLog}\n`;
+        });
+
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Phase3_Reading_Assessment_Results.csv';
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
+</script>
+</body>
+</html>
